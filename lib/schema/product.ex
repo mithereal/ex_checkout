@@ -1,3 +1,3 @@
 defmodule ExCheckout.Product do
-  defstruct items: []
+  defstruct data: nil
 end

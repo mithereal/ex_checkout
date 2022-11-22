@@ -1,3 +1,3 @@
 defmodule ExCheckout.Address do
-  defstruct items: []
+  defstruct data: nil
 end
