@@ -6,6 +6,7 @@ defmodule ExCheckout.Server do
   #  alias ExCheckout.Account
   #  alias ExCheckout.Address
   #  alias ExCheckout.Adjustment
+  #  alias ExCheckout.Invoice
 
   defstruct items: [],
             adjustments: [],
@@ -13,7 +14,8 @@ defmodule ExCheckout.Server do
             account: nil,
             addresses: [],
             sub_total: 0,
-            total: 0
+            total: 0,
+            invoice: nil
 
   def child_spec(init) do
     %{
