@@ -3,13 +3,17 @@ defmodule ExCheckout.Server do
 
   alias ExCheckout.Repo
   alias ExCheckout.Product
-#  alias ExCheckout.Account
-#  alias ExCheckout.Address
+  #  alias ExCheckout.Account
+  #  alias ExCheckout.Address
+  #  alias ExCheckout.Adjustment
 
   defstruct items: [],
             adjustments: [],
+            products: [],
             account: nil,
-            addresses: []
+            addresses: [],
+            sub_total: 0,
+            total: 0
 
   def child_spec(init) do
     %{
@@ -79,8 +83,8 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:cart, items, adjustments}, _, state) do
-    state = %{state | items: items}
+  def handle_call({:cart, products, adjustments}, _, state) do
+    state = %{state | products: products}
     state = %{state | adjustments: adjustments}
     {:reply, state, state}
   end
@@ -90,17 +94,17 @@ defmodule ExCheckout.Server do
   end
 
   def cart(pid, data) do
-    items =
+    products =
       Enum.map(data.items, fn x ->
         Repo.get_by(Product, x.sku, :sku)
       end)
 
     adjustments =
-      Enum.map(data.adjustments, fn x ->
-        %{name: x.name}
+      Enum.filter(data.adjustments, fn x ->
+        adjustment_valid(x)
       end)
 
-    GenServer.call(pid, {:cart, items, adjustments})
+    GenServer.call(pid, {:cart, products, adjustments})
   end
 
   def state(pid) do
