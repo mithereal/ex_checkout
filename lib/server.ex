@@ -66,7 +66,7 @@ defmodule ExCheckout.Server do
   def handle_call({:adjustments, adjustments}, _, state) do
     adjustments =
       Enum.filter(adjustments, fn x ->
-        adjustment_valid(x)
+        adjustment_valid(x.name)
       end)
 
     state = %{state | adjustments: adjustments}
@@ -91,8 +91,12 @@ defmodule ExCheckout.Server do
     {:reply, state, state}
   end
 
-  defp adjustment_valid(_data) do
-    true
+  defp adjustment_valid(adjustment, dataset \\ nil) do
+    if is_nil(dataset) do
+      dataset = Application.get_env(:ex_checkout, :adjustments, [])
+    end
+
+    Enum.member?(dataset, adjustment)
   end
 
   def cart(pid, data) do
@@ -103,7 +107,7 @@ defmodule ExCheckout.Server do
 
     adjustments =
       Enum.filter(data.adjustments, fn x ->
-        adjustment_valid(x)
+        adjustment_valid(x.name)
       end)
 
     GenServer.call(pid, {:cart, products, adjustments})
