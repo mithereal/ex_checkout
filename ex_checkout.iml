@@ -77,5 +77,6 @@
     <orderEntry type="library" name="ex_phone_number" level="project" />
     <orderEntry type="library" name="sweet_xml" level="project" />
     <orderEntry type="library" name="ex_spec" level="project" />
+    <orderEntry type="library" name="nanoid" level="project" />
   </component>
 </module>
