@@ -1,17 +1,20 @@
 defmodule ExCheckout.Application do
-  use Application
+  @moduledoc false
 
-  def start(arg, nil) do
-    start(arg, [])
-  end
+  use Application
 
   def start(_, args) do
     children = [
       {ExCheckout.Repo, args},
-      ExCheckout.Supervisor
+      {DynamicSupervisor, strategy: :one_for_one, name: ExCheckout.Checkout.Supervisor}
     ]
 
-    Supervisor.start_link(children, strategy: :one_for_one)
+    opts = [
+      strategy: :one_for_one,
+      name: ExCheckout.Supervisor
+    ]
+
+    Supervisor.start_link(children, opts)
   end
 
   @version Mix.Project.config()[:version]

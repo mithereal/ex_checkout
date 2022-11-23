@@ -18,8 +18,7 @@ defmodule ExCheckout.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    repos = Application.get_env(:ex_checkout, :ecto_repos, [])
-    [extra_applications: [:logger], mod: {ExCheckout.Application, List.first(repos)}]
+    [extra_applications: [:logger], mod: {ExCheckout.Application, []}]
   end
 
   defp deps do
