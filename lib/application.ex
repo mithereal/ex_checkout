@@ -1,8 +1,9 @@
 defmodule ExCheckout.Application do
   use Application
 
-  def start(_type, _args) do
+  def start(_type, args) do
     children = [
+    {Application.Repo, args},
       ExCheckout.Supervisor
     ]
 
