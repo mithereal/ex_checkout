@@ -1,4 +1,6 @@
 defmodule ExCheckout.Cache do
+  @registry_name :ex_checkout_registry
+
   alias ExCheckout.Registry, as: REGISTRY
 
   def register(name) do
