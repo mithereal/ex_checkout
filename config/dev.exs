@@ -8,7 +8,7 @@ config :ex_checkout, ExCheckout.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "soft_bank",
+  database: "ex_checkout",
   hostname: "localhost",
   port: 5433,
   pool_size: 10
