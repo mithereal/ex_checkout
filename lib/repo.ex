@@ -48,6 +48,6 @@ defmodule ExCheckout.Repo.Null do
   end
 
   def get_by(_, :sku, value) do
-    %Product{sku: value}
+    %Product{sku: value, price: 0}
   end
 end
