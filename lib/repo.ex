@@ -47,7 +47,7 @@ defmodule ExCheckout.Repo.Null do
     {:ok, init_arg}
   end
 
-  def get_by(_, :sku, value) do
+  def get_by(_, value, :sku) do
     %Product{sku: value, price: 0}
   end
 end
