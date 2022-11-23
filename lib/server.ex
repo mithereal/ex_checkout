@@ -81,6 +81,16 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
+  def handle_call({:invoice}, _, state) do
+    {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:recipt}, _, state) do
+    {:reply, state, state}
+  end
+
+  @impl true
   def handle_call({:adjustments, adjustments}, _, state) do
     adjustments =
       Enum.filter(adjustments, fn x ->
@@ -162,5 +172,13 @@ defmodule ExCheckout.Server do
 
   def adjustments(pid, data) do
     GenServer.call(pid, {:adjustments, data})
+  end
+
+  def invoice(pid, data) do
+    GenServer.call(pid, {:invoice})
+  end
+
+  def receipt(pid, data) do
+    GenServer.call(pid, {:receipt})
   end
 end
