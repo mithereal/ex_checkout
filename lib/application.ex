@@ -5,6 +5,7 @@ defmodule ExCheckout.Application do
 
   def start(_, args) do
     children = [
+      ExCheckout.Registry,
       {ExCheckout.Repo, args},
       {DynamicSupervisor, strategy: :one_for_one, name: ExCheckout.Checkout.Supervisor}
     ]
