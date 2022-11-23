@@ -69,6 +69,12 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
+  def handle_call({:adjustments, adjustments}, _, state) do
+    state = %{state | adjustments: adjustments}
+    {:reply, state, state}
+  end
+
+  @impl true
   def handle_call({:customer, customer}, _, state) do
     state = %{state | customer: customer}
     {:reply, state, state}
@@ -152,5 +158,9 @@ defmodule ExCheckout.Server do
 
   def address(pid, data) do
     GenServer.call(pid, {:address, data})
+  end
+
+  def adjustments(pid, data) do
+    GenServer.call(pid, {:adjustments, data})
   end
 end
