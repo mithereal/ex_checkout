@@ -59,8 +59,8 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:account, account}, _, state) do
-    state = %{state | account: account}
+  def handle_call({:customer, customer}, _, state) do
+    state = %{state | customer: customer}
     {:reply, state, state}
   end
 
@@ -119,8 +119,8 @@ defmodule ExCheckout.Server do
     GenServer.call(pid, {:state})
   end
 
-  def account(pid, data) do
-    GenServer.call(pid, {:account, data})
+  def customer(pid, data) do
+    GenServer.call(pid, {:customer, data})
   end
 
   def address(pid, data) do
