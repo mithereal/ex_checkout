@@ -8,6 +8,7 @@ defmodule ExCheckout.Server do
   alias ExCheckout.Adjustment
   alias ExCheckout.Invoice
   alias ExCheckout.Receipt
+  alias ExCheckout.Transaction
 
   defstruct sub_total: 0,
             total: 0,
@@ -16,7 +17,7 @@ defmodule ExCheckout.Server do
             products: [],
             customer: %Customer{},
             addresses: [],
-            transaction: nil,
+            transaction: %Transaction{},
             invoice: %Invoice{},
             receipt: %Receipt{}
 
