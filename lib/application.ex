@@ -1,9 +1,13 @@
 defmodule ExCheckout.Application do
   use Application
 
+  def start(arg, nil) do
+    start(arg, [])
+  end
+
   def start(_, args) do
     children = [
-    {ExCheckout.Repo, args},
+      {ExCheckout.Repo, args},
       ExCheckout.Supervisor
     ]
 
