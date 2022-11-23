@@ -16,6 +16,7 @@ defmodule ExCheckout.Server do
             products: [],
             customer: %Customer{},
             addresses: [],
+            transaction: nil,
             invoice: %Invoice{},
             receipt: %Receipt{}
 
@@ -86,7 +87,13 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:recipt}, _, state) do
+  def handle_call({:transaction, data}, _, state) do
+    state = %{state | transaction: data}
+    {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:receipt}, _, state) do
     {:reply, state, state}
   end
 
@@ -174,11 +181,15 @@ defmodule ExCheckout.Server do
     GenServer.call(pid, {:adjustments, data})
   end
 
-  def invoice(pid, data) do
+  def invoice(pid) do
     GenServer.call(pid, {:invoice})
   end
 
-  def receipt(pid, data) do
+  def transaction(pid, data) do
+    GenServer.call(pid, {:transaction, data})
+  end
+
+  def receipt(pid) do
     GenServer.call(pid, {:receipt})
   end
 end
