@@ -1,3 +1,3 @@
 defmodule ExCheckout.Invoice do
-  defstruct data: nil
+  defstruct data: []
 end

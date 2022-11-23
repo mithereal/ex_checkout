@@ -3,19 +3,21 @@ defmodule ExCheckout.Server do
 
   alias ExCheckout.Repo
   alias ExCheckout.Product
-  #  alias ExCheckout.Account
+  alias ExCheckout.Customer
   #  alias ExCheckout.Address
   #  alias ExCheckout.Adjustment
-  #  alias ExCheckout.Invoice
+  alias ExCheckout.Invoice
+  alias ExCheckout.Receipt
 
-  defstruct items: [],
+  defstruct sub_total: 0,
+            total: 0,
+            items: [],
             adjustments: [],
             products: [],
-            account: nil,
+            customer: %Customer{},
             addresses: [],
-            sub_total: 0,
-            total: 0,
-            invoice: nil
+            invoice: %Invoice{},
+            receipt: %Receipt{}
 
   def child_spec(init) do
     %{

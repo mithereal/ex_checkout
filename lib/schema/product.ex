@@ -1,3 +1,3 @@
 defmodule ExCheckout.Product do
-  defstruct data: nil
+  defstruct sku: nil, price: nil
 end

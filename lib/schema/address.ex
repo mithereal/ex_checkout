@@ -1,3 +1,4 @@
 defmodule ExCheckout.Address do
-  defstruct data: nil
+  defstruct address: nil,
+            type: :billing
 end
