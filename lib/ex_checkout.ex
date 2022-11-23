@@ -16,6 +16,16 @@ defmodule ExCheckout do
     :ok
   end
 
+  @doc """
+  Start a Checkout.
+
+  ## Examples
+
+      iex> ExCheckout.new()
+      :ok
+
+  """
+  def new, do: ExCheckout.Checkout.Supervisor.start_child()
 
   @doc """
   Returns the name and module tuple.

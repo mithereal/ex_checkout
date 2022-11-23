@@ -11,22 +11,21 @@ defmodule ExCheckout.Checkout.Supervisor do
     }
   end
 
-  def start_child(args \\ nil) do
-    spec = {ExCheckout.Server, args}
-    DynamicSupervisor.start_child(__MODULE__, spec)
+  def start_checkout(args \\ []) do
+    child_spec = %{
+      id: ExCheckout.Server,
+      start: {ExCheckout.Server, :start_link, args},
+      restart: :transient
+    }
+    DynamicSupervisor.start_child(__MODULE__, child_spec)
   end
 
   def start_link(args \\ []) do
     DynamicSupervisor.start_link(__MODULE__, args, name: @name)
   end
 
-  def start() do
-    start_link()
-  end
-
-  def stop(id) do
-    Process.exit(id, :shutdown)
-    :ok
+  def stop_checkout(pid) do
+    DynamicSupervisor.terminate_child(__MODULE__, pid)
   end
 
   def init(args) do

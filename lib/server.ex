@@ -30,9 +30,19 @@ defmodule ExCheckout.Server do
     }
   end
 
+
+  def start_link([]) do
+    GenServer.start_link(__MODULE__, nil)
+  end
+
   def start_link([cart]) do
     GenServer.start_link(__MODULE__, cart)
   end
+
+  @impl true
+  def init([nil]) do
+    {:ok, %__MODULE__{}}
+    end
 
   @impl true
   def init(cart) do

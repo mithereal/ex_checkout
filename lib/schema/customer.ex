@@ -1,3 +1,3 @@
 defmodule ExCheckout.Customer do
-defstruct data: nil
+  defstruct first_name: nil, last_name: nil, email: nil, phone: nil
 end

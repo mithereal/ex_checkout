@@ -29,6 +29,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/connection" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/decimal" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/credo" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/sweet_xml" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ex_phone_number" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -71,5 +73,9 @@
     <orderEntry type="library" name="myxql" level="project" />
     <orderEntry type="library" name="tds" level="project" />
     <orderEntry type="library" name="benchee_json" level="project" />
+    <orderEntry type="library" name="invoicex" level="project" />
+    <orderEntry type="library" name="ex_phone_number" level="project" />
+    <orderEntry type="library" name="sweet_xml" level="project" />
+    <orderEntry type="library" name="ex_spec" level="project" />
   </component>
 </module>

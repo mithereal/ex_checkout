@@ -3,6 +3,8 @@ defmodule ExCheckout.Application do
 
   use Application
 
+  @name __MODULE__
+
   def start(_, args) do
     children = [
       ExCheckout.Registry,
@@ -12,7 +14,7 @@ defmodule ExCheckout.Application do
 
     opts = [
       strategy: :one_for_one,
-      name: ExCheckout.Supervisor
+      name: @name
     ]
 
     Supervisor.start_link(children, opts)
