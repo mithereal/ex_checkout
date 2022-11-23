@@ -18,9 +18,8 @@ defmodule ExCheckout.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [
-#      [extra_applications: [:logger], mod: {ExCheckout.Application, []}]
-    ]
+    repos = Application.get_env(:ex_checkout, :ecto_repos, [])
+    [extra_applications: [:logger], mod: {ExCheckout.Application, List.first(repos)}]
   end
 
   defp deps do
@@ -30,7 +29,7 @@ defmodule ExCheckout.MixProject do
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 3.5"},
-      {:ecto_sql, "~> 3.5"},
+      {:ecto_sql, "~> 3.5"}
     ]
   end
 

@@ -5,4 +5,9 @@ defmodule ExCheckoutTest do
   test "init" do
     assert ExCheckout.init() == :ok
   end
+
+
+  test "checkout process" do
+    assert ExCheckout.init() == :ok
+  end
 end
