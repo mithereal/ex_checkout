@@ -1,7 +1,7 @@
 defmodule ExCheckout.Repo do
   use Ecto.Repo,
-      otp_app: :ex_checkout,
-      adapter: Ecto.Adapters.Postgres
+    otp_app: :ex_checkout,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the
@@ -22,5 +22,43 @@ defmodule ExCheckout.Repo do
     table_name = schema.__schema__(:source)
 
     query("TRUNCATE #{table_name}", [])
+  end
+end
+
+defmodule ExCheckout.Repo.Null do
+  use GenServer
+
+  def child_spec(init) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, [init]},
+      restart: :transient,
+      type: :worker
+    }
+  end
+
+  def start_link([]) do
+    GenServer.start_link(__MODULE__, [], name: :ex_null_repo)
+  end
+
+  def init(init_arg) do
+    {:ok, init_arg}
+  end
+
+
+  def get(_) do
+    %{}
+  end
+
+  def get_by(_) do
+    %{}
+  end
+
+  def get_by(_, _) do
+    %{}
+  end
+
+  def get_by(_, _, _) do
+    %{}
   end
 end

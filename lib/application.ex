@@ -5,10 +5,13 @@ defmodule ExCheckout.Application do
 
   @name __MODULE__
 
+
   def start(_, args) do
+    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
+
     children = [
       ExCheckout.Registry,
-      {ExCheckout.Repo, args},
+      {repo, args},
       {DynamicSupervisor, strategy: :one_for_one, name: ExCheckout.Checkout.Supervisor}
     ]
 

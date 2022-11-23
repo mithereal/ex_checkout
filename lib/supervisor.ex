@@ -11,7 +11,7 @@ defmodule ExCheckout.Checkout.Supervisor do
     }
   end
 
-  def start_checkout(args \\ []) do
+  def start_child(args \\ []) do
     child_spec = %{
       id: ExCheckout.Server,
       start: {ExCheckout.Server, :start_link, args},
