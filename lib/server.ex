@@ -4,8 +4,8 @@ defmodule ExCheckout.Server do
   alias ExCheckout.Repo
   alias ExCheckout.Product
   alias ExCheckout.Customer
-  #  alias ExCheckout.Address
-  #  alias ExCheckout.Adjustment
+  alias ExCheckout.Address
+  alias ExCheckout.Adjustment
   alias ExCheckout.Invoice
   alias ExCheckout.Receipt
 
@@ -34,7 +34,7 @@ defmodule ExCheckout.Server do
 
   @impl true
   def init(cart) do
-    items =
+    products =
       Enum.map(cart.items, fn x ->
         Repo.get_by(Product, x.sku, :sku)
       end)
@@ -43,9 +43,19 @@ defmodule ExCheckout.Server do
       Enum.filter(cart.adjustments, fn x ->
         adjustment_valid(x)
       end)
+      |> Enum.map(fn x ->
+        %Adjustment{
+          id: x.id,
+          name: x.name,
+          description: x.description,
+          type: x.type,
+          function: x.function
+        }
+      end)
 
     initial_state = %__MODULE__{
-      items: items,
+      items: cart.items,
+      products: products,
       adjustments: adjustments
     }
 
@@ -70,6 +80,15 @@ defmodule ExCheckout.Server do
       Enum.filter(adjustments, fn x ->
         adjustment_valid(%{name: x.name, type: x.type})
       end)
+      |> Enum.map(fn x ->
+        %Adjustment{
+          id: x.id,
+          name: x.name,
+          description: x.description,
+          type: x.type,
+          function: x.function
+        }
+      end)
 
     state = %{state | adjustments: adjustments}
     {:reply, state, state}
@@ -77,6 +96,14 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:addresses, addresses}, _, state) do
+    addresses =
+      Enum.map(addresses, fn x ->
+        %Address{
+          address: x.address,
+          type: x.type
+        }
+      end)
+
     state = %{state | addresses: addresses}
     {:reply, state, state}
   end
