@@ -28,6 +28,8 @@ end
 defmodule ExCheckout.Repo.Null do
   use GenServer
 
+  alias ExCheckout.Product
+
   def child_spec(init) do
     %{
       id: __MODULE__,
@@ -45,20 +47,7 @@ defmodule ExCheckout.Repo.Null do
     {:ok, init_arg}
   end
 
-
-  def get(_) do
-    %{}
-  end
-
-  def get_by(_) do
-    %{}
-  end
-
-  def get_by(_, _) do
-    %{}
-  end
-
-  def get_by(_, _, _) do
-    %{}
+  def get_by(_, :sku, value) do
+    %Product{sku: value}
   end
 end
