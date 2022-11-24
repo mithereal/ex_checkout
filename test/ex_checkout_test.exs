@@ -17,9 +17,9 @@ defmodule ExCheckoutTest do
     Checkout.scan_items(pid)
     Checkout.subtotal(pid)
     Checkout.apply_adjustments(pid)
+    total = Checkout.total(pid)
     _invoice = Checkout.invoice(pid)
     _state = Checkout.transaction(pid, [])
-    total = Checkout.total(pid)
     _receipt = Checkout.receipt(pid)
     assert total == 0
   end
