@@ -99,10 +99,19 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:transaction, data}, _, state) do
-
-    ## TODO: create an receipt
+    receipt = %Receipt{
+      data: %{
+        subtotal: state.sub_total,
+        total: state.total,
+        adjustments: state.adjustments,
+        items: state.products,
+        transaction: state.transaction
+      }
+    }
 
     state = %{state | transaction: data}
+    state = %{state | receipt: receipt}
+
     {:reply, data, state}
   end
 
@@ -121,6 +130,7 @@ defmodule ExCheckout.Server do
       end)
 
     state = %{state | products: products}
+
     {:reply, products, state}
   end
 
@@ -148,9 +158,15 @@ defmodule ExCheckout.Server do
         Adjustment.value(state, x) + acc
       end)
 
-      ## TODO: create an invoice
+    total = subtotal + adjustments
 
-    state = %{state | total: subtotal + adjustments}
+    invoice = %Invoice{
+      data: %{subtotal: subtotal, total: total, adjustments: adjustments, items: state.products}
+    }
+
+    state = %{state | total: total}
+    state = %{state | invoice: invoice}
+
     {:reply, state.total, state}
   end
 
@@ -197,6 +213,7 @@ defmodule ExCheckout.Server do
   def handle_call({:cart, products, adjustments}, _, state) do
     state = %{state | products: products}
     state = %{state | adjustments: adjustments}
+
     {:reply, state, state}
   end
 
