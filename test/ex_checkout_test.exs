@@ -6,12 +6,10 @@ defmodule ExCheckoutTest do
     assert ExCheckout.init() == :ok
   end
 
-
   test "checkout process" do
-    assert ExCheckout.init() == :ok
     {:ok, pid} = ExCheckout.new()
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
-    _state = ExCheckout.Server.items(pid, items)
+    state = ExCheckout.Server.items(pid, items)
     _state = ExCheckout.Server.adjustments(pid, [])
     _state = ExCheckout.Server.scan_items(pid)
     _state = ExCheckout.Server.apply_adjustments(pid)
@@ -19,6 +17,8 @@ defmodule ExCheckoutTest do
     _state = ExCheckout.Server.transaction(pid, [])
     receipt = ExCheckout.Server.receipt(pid)
 
+    assert ExCheckout.init() == :ok
+    assert Enum.count(state.items) == 2
     assert receipt.total == 0
   end
 end
