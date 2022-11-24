@@ -348,8 +348,6 @@ defmodule ExCheckout.Server do
   end
 
   def shipping_quote(pid, data) do
-    # shipping_address
-    ## pack into boxes
     GenServer.call(pid, {:shipping_quote, data})
   end
 
