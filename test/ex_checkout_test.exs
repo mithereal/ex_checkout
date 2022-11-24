@@ -15,7 +15,7 @@ defmodule ExCheckoutTest do
     ExCheckout.Server.subtotal(pid)
     ExCheckout.Server.apply_adjustments(pid)
     _invoice = ExCheckout.Server.invoice(pid)
-    state = ExCheckout.Server.transaction(pid, [])
+    _state = ExCheckout.Server.transaction(pid, [])
     total = ExCheckout.Server.total(pid)
     _receipt = ExCheckout.Server.receipt(pid)
     assert total == 0
