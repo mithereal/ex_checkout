@@ -18,6 +18,6 @@ defmodule ExCheckoutTest do
     state = ExCheckout.Server.transaction(pid, [])
     total = ExCheckout.Server.total(pid)
     _receipt = ExCheckout.Server.receipt(pid)
-    IO.inspect(total)
+    assert total == 0
   end
 end
