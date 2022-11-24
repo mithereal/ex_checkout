@@ -2,6 +2,7 @@ defmodule ExCheckoutTest do
   use ExUnit.Case
   # doctest ExCheckout
   alias ExCheckout.Server, as: Checkout
+  alias ExCheckout.Transaction
 
   test "init" do
     assert ExCheckout.init() == :ok
@@ -11,7 +12,7 @@ defmodule ExCheckoutTest do
     customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
     adjustments = []
-    transaction = []
+    transaction = %Transaction{data: %{id: 12345, response: "JSON"}}
 
     {:ok, pid} = ExCheckout.new()
 
@@ -21,8 +22,8 @@ defmodule ExCheckoutTest do
     Checkout.scan_items(pid)
     Checkout.subtotal(pid)
 
-    _adjustments_result = Checkout.apply_adjustments(pid)
     total = Checkout.total(pid)
+
     _invoice = Checkout.invoice(pid)
     _state = Checkout.transaction(pid, transaction)
     _receipt = Checkout.receipt(pid)

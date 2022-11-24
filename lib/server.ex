@@ -99,6 +99,9 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:transaction, data}, _, state) do
+
+    ## TODO: create an receipt
+
     state = %{state | transaction: data}
     {:reply, data, state}
   end
@@ -144,6 +147,8 @@ defmodule ExCheckout.Server do
       Enum.reduce(state.adjustments, 0, fn x, acc ->
         Adjustment.value(state, x) + acc
       end)
+
+      ## TODO: create an invoice
 
     state = %{state | total: subtotal + adjustments}
     {:reply, state.total, state}
