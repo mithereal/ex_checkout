@@ -21,8 +21,10 @@ defmodule ExCheckout do
 
   ## Examples
 
-      iex> ExCheckout.new()
-      :ok
+      iex>  {status, _} = ExCheckout.new()
+      iex>  status = true
+      true
+
 
   """
   def new, do: ExCheckout.Checkout.Supervisor.start_child()
@@ -31,7 +33,7 @@ defmodule ExCheckout do
   Returns the name and module tuple.
 
       iex> ExCheckout.get_modules()
-      {%{}, :module_name}
+      []
   """
   def get_modules() do
     {:ok, modules} = :application.get_key(:ex_checkout, :modules)
@@ -40,7 +42,7 @@ defmodule ExCheckout do
     |> Stream.map(&Module.split/1)
     |> Stream.filter(fn module ->
       case module do
-        [_, "Checkout", _] -> true
+        [_, "Checkout", "Plugin", _] -> true
         _ -> false
       end
     end)

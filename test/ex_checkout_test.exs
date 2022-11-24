@@ -9,5 +9,6 @@ defmodule ExCheckoutTest do
 
   test "checkout process" do
     assert ExCheckout.init() == :ok
+    session = ExCheckout.new()
   end
 end
