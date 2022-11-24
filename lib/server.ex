@@ -6,6 +6,8 @@ defmodule ExCheckout.Server do
   alias ExCheckout.Address
   alias ExCheckout.Adjustment
   alias ExCheckout.Invoice
+  alias ExCheckout.Package
+  alias ExCheckout.Shipment
   alias ExCheckout.Receipt
   alias ExCheckout.Transaction
 
@@ -146,11 +148,11 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:shipping_quote, {shipment, carriers, package}}, _, state) do
+  def handle_call({:shipping_quote, {carriers, package}}, _, state) do
     [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
 
-    origin_address = state.address[0]
-    destination_address = state.address[1]
+    [origin_address] = Enum.filter(state.address, fn(x) -> x.type == :origin end)
+    [destination_address] = Enum.filter(state.address, fn(x) -> x.type == :destination end)
 
     rates =
       case shipping_module do
@@ -167,7 +169,6 @@ defmodule ExCheckout.Server do
           {:ok, origin} = origin
           {:ok, destination} = destination
 
-          # Link the origin, destination, and package with a shipment.
           shipment = Shipment.new(origin, destination, package)
 
           {:ok, shipment} = shipment

@@ -1,9 +1,14 @@
 defmodule ExCheckout.Address do
   defstruct address: nil,
-            type: :billing
+            # [:origin, :destination]
+            type: :origin
 
   def new() do
-    :ok
+    {:ok, %ExCheckout.Address{}}
+  end
+
+  def new(data) do
+    {:ok, struct(ExCheckout.Address, data)}
   end
 end
 
@@ -28,7 +33,11 @@ defmodule ExCheckout.Shipping.Address do
           country: ISO.country_code()
         }
 
-  def new(params) do
-    :ok
+  def new() do
+    {:ok, %{}}
+  end
+
+  def new(data) do
+    {:ok, struct(ExCheckout.Shipping.Address, data)}
   end
 end
