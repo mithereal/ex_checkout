@@ -22,7 +22,7 @@ defmodule ExCheckout do
   ## Examples
 
       iex>  {status, _} = ExCheckout.new()
-      iex>  status
+      iex>  status == :ok
       true
 
 
