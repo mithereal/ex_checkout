@@ -23,14 +23,16 @@ defmodule ExCheckout.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev},
       {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 3.5"},
       {:ecto_sql, "~> 3.5"},
       {:ex_phone_number, "~> 0.3.0"},
-      {:nanoid, "~> 2.0"}
+      {:nanoid, "~> 2.0"},
+      {:decimal, "~> 1.3"},
+      {:iso, "~> 1.2"}
     ]
   end
 
