@@ -31,7 +31,7 @@ defmodule ExCheckout.MixProject do
       {:ecto_sql, "~> 3.5"},
       {:ex_phone_number, "~> 0.3.0"},
       {:nanoid, "~> 2.0"},
-      {:decimal, "~> 1.3"},
+      {:decimal, ">= 0.0.0"},
       {:iso, "~> 1.2"}
     ]
   end
