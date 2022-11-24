@@ -192,6 +192,10 @@ defmodule ExCheckout.Server do
     GenServer.call(pid, {:address, data})
   end
 
+  def items(pid, data) do
+    GenServer.call(pid, {:items, data})
+  end
+
   def adjustments(pid, data) do
     GenServer.call(pid, {:adjustments, data})
   end
