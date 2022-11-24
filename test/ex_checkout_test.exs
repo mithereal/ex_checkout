@@ -9,7 +9,7 @@ defmodule ExCheckoutTest do
 
   test "checkout process" do
     {:ok, pid} = ExCheckout.new()
-    customer = []
+    customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
     Checkout.customer(pid, customer)
     Checkout.items(pid, items)

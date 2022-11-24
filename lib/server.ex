@@ -86,8 +86,10 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:customer, data}, _, state) do
-    state = %{state | customer: data}
-    {:reply, data, state}
+    customer = struct(Customer, data)
+
+    state = %{state | customer: customer}
+    {:reply, customer, state}
   end
 
   @impl true
@@ -213,6 +215,7 @@ defmodule ExCheckout.Server do
   def subtotal(pid) do
     GenServer.call(pid, {:subtotal})
   end
+
   def total(pid) do
     GenServer.call(pid, {:total})
   end
