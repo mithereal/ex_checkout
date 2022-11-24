@@ -3,6 +3,7 @@ defmodule ExCheckout.Product do
             price: 0,
             qty: 0,
             name: nil,
+            description: nil,
             type: nil,
             length: nil,
             height: nil,

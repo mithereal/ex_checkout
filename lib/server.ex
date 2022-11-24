@@ -145,6 +145,71 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
+  def handle_call({:shipping_quote, {shipment, carriers}}, _, state) do
+    [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
+      rates = case shipping_module do
+      :not_found -> :not_found
+      _->
+        origin = shipping_module.Address.new(%{
+          name: "Earl G",
+          phone: "123-123-1234",
+          address: "9999 Hobby Lane",
+          address_line_2: nil,
+          city: "Austin",
+          state: "TX",
+          postal_code: "78703"
+        })
+
+        destination = shipping_module.Address.new(%{
+          name: "Bar Baz",
+          phone: "123-123-1234",
+          address: "1234 Foo Blvd",
+          address_line_2: nil,
+          city: "Plano",
+          state: "TX",
+          postal_code: "75074",
+          country: "US" # optional
+        })
+
+        # Create a package. Currently only inches and pounds (lbs) supported.
+        package = shipping_module.Package.new(%{
+          length: 8,
+          width: 8,
+          height: 4,
+          weight: 5,
+          description: "Headphones",
+          monetary_value: 20 # optional
+        })
+        {:ok, origin} = origin
+        {:ok, destination} = destination
+
+        # Link the origin, destination, and package with a shipment.
+        shipment = shipping_module.Shipment.new(origin, destination, package)
+
+        {:ok, shipment} = shipment
+
+
+        # Fetch rates to present to the user.
+        rates = shipping_module.fetch_rates(shipment, carriers: :usps)
+        shipping_module.fetch_rates(shipment, carriers)
+    end
+
+    {:reply, rates, state}
+  end
+
+
+  @impl true
+  def handle_call({:create_transaction, {shipment, service}}, _, state) do
+    [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
+    transaction = case shipping_module do
+      :not_found -> :not_found
+      _-> shipping_module.create_transaction(shipment, service)
+    end
+
+    {:reply, transaction, state}
+  end
+
+  @impl true
   def handle_call({:subtotal}, _, state) do
     {:reply, state.sub_total, state}
   end
@@ -285,6 +350,12 @@ defmodule ExCheckout.Server do
 
   def scan_items(pid) do
     GenServer.call(pid, {:scan_items})
+  end
+
+  def shipping_quote(pid, data) do
+    # shipping_address
+    ## pack into boxes
+    GenServer.call(pid, {:shipping_quote, data})
   end
 
   def apply_adjustments(pid) do
