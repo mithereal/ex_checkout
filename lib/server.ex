@@ -123,7 +123,12 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:apply_adjustments}, _, state) do
-    {:reply, state, state}
+    adjustments =
+      Enum.reduce(state.adjustments, 0, fn x, acc ->
+        Adjustment.value(state, x) + acc
+      end)
+
+    {:reply, adjustments, state}
   end
 
   @impl true
@@ -133,6 +138,14 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:total}, _, state) do
+    subtotal = state.sub_total
+
+    adjustments =
+      Enum.reduce(state.adjustments, 0, fn x, acc ->
+        Adjustment.value(state, x) + acc
+      end)
+
+    state = %{state | total: subtotal + adjustments}
     {:reply, state.total, state}
   end
 
