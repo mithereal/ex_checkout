@@ -1,7 +1,6 @@
 defmodule ExCheckout.Server do
   use GenServer
 
-  alias ExCheckout.Repo
   alias ExCheckout.Product
   alias ExCheckout.Customer
   alias ExCheckout.Address
@@ -30,7 +29,6 @@ defmodule ExCheckout.Server do
     }
   end
 
-
   def start_link() do
     GenServer.start_link(__MODULE__, nil)
   end
@@ -46,13 +44,15 @@ defmodule ExCheckout.Server do
   @impl true
   def init(nil) do
     {:ok, %__MODULE__{}}
-    end
+  end
 
   @impl true
   def init(cart) do
+    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
+
     products =
-      Enum.map(cart.items, fn x ->
-        Repo.get_by(Product, x.sku, :sku)
+      Enum.map(cart.items, fn {x, _} ->
+        repo.get_by(Product, x, :sku)
       end)
 
     adjustments =
@@ -79,42 +79,44 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:items, items}, _, state) do
-    state = %{state | items: items}
+  def handle_call({:items, data}, _, state) do
+    state = %{state | items: data}
     {:reply, state, state}
   end
 
   @impl true
-  def handle_call({:adjustments, adjustments}, _, state) do
-    state = %{state | adjustments: adjustments}
-    {:reply, state, state}
-  end
-
-  @impl true
-  def handle_call({:customer, customer}, _, state) do
-    state = %{state | customer: customer}
-    {:reply, state, state}
+  def handle_call({:customer, data}, _, state) do
+    state = %{state | customer: data}
+    {:reply, data, state}
   end
 
   @impl true
   def handle_call({:invoice}, _, state) do
-    {:reply, state, state}
+    {:reply, state.invoice, state}
   end
 
   @impl true
   def handle_call({:transaction, data}, _, state) do
     state = %{state | transaction: data}
-    {:reply, state, state}
+    {:reply, data, state}
   end
 
   @impl true
   def handle_call({:receipt}, _, state) do
-    {:reply, state, state}
+    {:reply, state.receipt, state}
   end
 
   @impl true
   def handle_call({:scan_items}, _, state) do
-    {:reply, state, state}
+    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
+
+    products =
+      Enum.map(state.items, fn {x, _} ->
+        repo.get_by(Product, x, :sku)
+      end)
+
+    state = %{state | products: products}
+    {:reply, products, state}
   end
 
   @impl true
@@ -123,9 +125,19 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:adjustments, adjustments}, _, state) do
+  def handle_call({:subtotal}, _, state) do
+    {:reply, state.sub_total, state}
+  end
+
+  @impl true
+  def handle_call({:total}, _, state) do
+    {:reply, state.total, state}
+  end
+
+  @impl true
+  def handle_call({:adjustments, data}, _, state) do
     adjustments =
-      Enum.filter(adjustments, fn x ->
+      Enum.filter(data, fn x ->
         adjustment_valid(%{name: x.name, type: x.type})
       end)
       |> Enum.map(fn x ->
@@ -143,9 +155,9 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:addresses, addresses}, _, state) do
+  def handle_call({:addresses, data}, _, state) do
     addresses =
-      Enum.map(addresses, fn x ->
+      Enum.map(data, fn x ->
         %Address{
           address: x.address,
           type: x.type
@@ -169,17 +181,21 @@ defmodule ExCheckout.Server do
   end
 
   defp adjustment_valid(adjustment, dataset \\ nil) do
-    if is_nil(dataset) do
-      dataset = Application.get_env(:ex_checkout, :adjustments, [])
-    end
+    dataset =
+      case(is_nil(dataset)) do
+        true -> Application.get_env(:ex_checkout, :adjustments, [])
+        false -> dataset
+      end
 
     Enum.member?(dataset, adjustment)
   end
 
   def cart(pid, data) do
+    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
+
     products =
       Enum.map(data.items, fn x ->
-        Repo.get_by(Product, x.sku, :sku)
+        repo.get_by(Product, x.sku, :sku)
       end)
 
     adjustments =
@@ -192,6 +208,13 @@ defmodule ExCheckout.Server do
 
   def state(pid) do
     GenServer.call(pid, {:state})
+  end
+
+  def subtotal(pid) do
+    GenServer.call(pid, {:subtotal})
+  end
+  def total(pid) do
+    GenServer.call(pid, {:total})
   end
 
   def customer(pid, data) do
