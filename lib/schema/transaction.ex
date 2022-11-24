@@ -4,4 +4,8 @@ defmodule ExCheckout.Transaction do
   def id() do
     {:ok, 0}
   end
+
+  def process(data) do
+    {:ok, data}
+  end
 end

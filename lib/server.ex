@@ -158,20 +158,17 @@ defmodule ExCheckout.Server do
           :not_found
 
         _ ->
-          origin =
-            shipping_module.Address.new(origin_address)
+          origin = Address.new(origin_address)
 
-          destination =
-            shipping_module.Address.new(destination_address)
+          destination = Address.new(destination_address)
 
-          package =
-            shipping_module.Package.new(package)
+          package = Package.new(package)
 
           {:ok, origin} = origin
           {:ok, destination} = destination
 
           # Link the origin, destination, and package with a shipment.
-          shipment = shipping_module.Shipment.new(origin, destination, package)
+          shipment = Shipment.new(origin, destination, package)
 
           {:ok, shipment} = shipment
 
@@ -258,6 +255,14 @@ defmodule ExCheckout.Server do
   def handle_call({:ipn_module, ipn_module}, _, state) do
     state = %{state | ipn_module: ipn_module}
     {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:ipn_message, ipn_message}, _, state) do
+    handler = state.ipn_module
+    data = handler.process(ipn_message)
+    payment_transaction(self(), data)
+    {:reply, ipn_message, state}
   end
 
   @impl true
@@ -357,5 +362,9 @@ defmodule ExCheckout.Server do
 
   def ipn(pid, type) do
     GenServer.call(pid, {:ipn_module, type})
+  end
+
+  def ipn_message(pid, message) do
+    GenServer.call(pid, {:ipn_message, message})
   end
 end
