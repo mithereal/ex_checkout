@@ -8,7 +8,9 @@ defmodule ExCheckoutTest do
 
   test "checkout process" do
     {:ok, pid} = ExCheckout.new()
+    customer = []
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
+    ExCheckout.Server.customer(pid, customer)
     ExCheckout.Server.items(pid, items)
     ExCheckout.Server.adjustments(pid, [])
     ExCheckout.Server.scan_items(pid)
