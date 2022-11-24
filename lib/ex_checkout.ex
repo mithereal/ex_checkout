@@ -42,7 +42,7 @@ defmodule ExCheckout do
     |> Stream.map(&Module.split/1)
     |> Stream.filter(fn module ->
       case module do
-        [_, "Checkout", "Plugin", _] -> true
+        [_, "ExCheckout", "Plugin", _] -> true
         _ -> false
       end
     end)

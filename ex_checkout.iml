@@ -32,6 +32,9 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/sweet_xml" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ex_phone_number" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/nanoid" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/sweet_xml" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ex_phone_number" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/nanoid" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
