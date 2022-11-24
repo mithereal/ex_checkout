@@ -20,11 +20,13 @@ defmodule ExCheckoutTest do
     Checkout.items(pid, items)
     Checkout.adjustments(pid, adjustments)
     Checkout.scan_items(pid)
-    Checkout.subtotal(pid)
+
+    _subtotal = Checkout.subtotal(pid)
 
     total = Checkout.total(pid)
 
     _invoice = Checkout.invoice(pid)
+
     _state = Checkout.transaction(pid, transaction)
     _receipt = Checkout.receipt(pid)
 
