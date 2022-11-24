@@ -17,6 +17,7 @@ defmodule ExCheckout.Server do
             customer: %Customer{},
             addresses: [],
             transaction: %Transaction{},
+            ipn_module: %Transaction{},
             invoice: %Invoice{},
             receipt: %Receipt{}
 
@@ -98,7 +99,7 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:transaction, data}, _, state) do
+  def handle_call({:payment_transaction, data}, _, state) do
     receipt = %Receipt{
       data: %{
         subtotal: state.sub_total,
@@ -145,66 +146,50 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:shipping_quote, {shipment, carriers}}, _, state) do
+  def handle_call({:shipping_quote, {shipment, carriers, package}}, _, state) do
     [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
-      rates = case shipping_module do
-      :not_found -> :not_found
-      _->
-        origin = shipping_module.Address.new(%{
-          name: "Earl G",
-          phone: "123-123-1234",
-          address: "9999 Hobby Lane",
-          address_line_2: nil,
-          city: "Austin",
-          state: "TX",
-          postal_code: "78703"
-        })
 
-        destination = shipping_module.Address.new(%{
-          name: "Bar Baz",
-          phone: "123-123-1234",
-          address: "1234 Foo Blvd",
-          address_line_2: nil,
-          city: "Plano",
-          state: "TX",
-          postal_code: "75074",
-          country: "US" # optional
-        })
+    origin_address = state.address[0]
+    destination_address = state.address[1]
 
-        # Create a package. Currently only inches and pounds (lbs) supported.
-        package = shipping_module.Package.new(%{
-          length: 8,
-          width: 8,
-          height: 4,
-          weight: 5,
-          description: "Headphones",
-          monetary_value: 20 # optional
-        })
-        {:ok, origin} = origin
-        {:ok, destination} = destination
+    rates =
+      case shipping_module do
+        :not_found ->
+          :not_found
 
-        # Link the origin, destination, and package with a shipment.
-        shipment = shipping_module.Shipment.new(origin, destination, package)
+        _ ->
+          origin =
+            shipping_module.Address.new(origin_address)
 
-        {:ok, shipment} = shipment
+          destination =
+            shipping_module.Address.new(destination_address)
 
+          package =
+            shipping_module.Package.new(package)
 
-        # Fetch rates to present to the user.
-        rates = shipping_module.fetch_rates(shipment, carriers: :usps)
-        shipping_module.fetch_rates(shipment, carriers)
-    end
+          {:ok, origin} = origin
+          {:ok, destination} = destination
+
+          # Link the origin, destination, and package with a shipment.
+          shipment = shipping_module.Shipment.new(origin, destination, package)
+
+          {:ok, shipment} = shipment
+
+          shipping_module.fetch_rates(shipment, carriers)
+      end
 
     {:reply, rates, state}
   end
 
-
   @impl true
-  def handle_call({:create_transaction, {shipment, service}}, _, state) do
+  def handle_call({:shipping_transaction, {shipment, service}}, _, state) do
     [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
-    transaction = case shipping_module do
-      :not_found -> :not_found
-      _-> shipping_module.create_transaction(shipment, service)
-    end
+
+    transaction =
+      case shipping_module do
+        :not_found -> :not_found
+        _ -> shipping_module.create_transaction(shipment, service)
+      end
 
     {:reply, transaction, state}
   end
@@ -266,6 +251,12 @@ defmodule ExCheckout.Server do
       end)
 
     state = %{state | addresses: addresses}
+    {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:ipn_module, ipn_module}, _, state) do
+    state = %{state | ipn_module: ipn_module}
     {:reply, state, state}
   end
 
@@ -340,8 +331,12 @@ defmodule ExCheckout.Server do
     GenServer.call(pid, {:invoice})
   end
 
-  def transaction(pid, data) do
-    GenServer.call(pid, {:transaction, data})
+  def shipping_transaction(pid, data) do
+    GenServer.call(pid, {:shipping_transaction, data})
+  end
+
+  def payment_transaction(pid, data) do
+    GenServer.call(pid, {:payment_transaction, data})
   end
 
   def receipt(pid) do
@@ -360,5 +355,9 @@ defmodule ExCheckout.Server do
 
   def apply_adjustments(pid) do
     GenServer.call(pid, {:apply_adjustments})
+  end
+
+  def ipn(pid, type) do
+    GenServer.call(pid, {:ipn_module, type})
   end
 end
