@@ -6,19 +6,6 @@ defmodule ExCheckout do
   alias ExCheckout.Config
 
   @doc """
-  init.
-
-  ## Examples
-
-      iex> ExCheckout.init()
-      :ok
-
-  """
-  def init do
-    :ok
-  end
-
-  @doc """
   Start a Checkout.
 
   ## Examples
@@ -111,7 +98,7 @@ defmodule ExCheckout do
   def available_carriers() do
     Config.carriers()
     |> Enum.filter(fn x ->
-      ExCheckout.Transaction.module_exists(x)
+      ExCheckout.Carrier.module_exists(x)
     end)
   end
 

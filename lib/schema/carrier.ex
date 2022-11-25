@@ -9,6 +9,8 @@ defmodule ExCheckout.Carrier do
       iex> Carrier.module("ups")
       Carrier.UPS
   """
+
+
   @spec module(atom | String.t()) :: module()
   def module(carrier) when is_atom(carrier) do
     default_modules = ExCheckout.get_shipping_modules()
@@ -51,5 +53,53 @@ defmodule ExCheckout.Carrier do
     |> String.downcase()
     |> String.to_atom()
     |> module
+  end
+
+
+  @doc """
+  Checks if Module Exists.
+
+      iex> Transaction.module_exists(:ups)
+      true
+      iex> Transaction.module_exists("UPS")
+      true
+      iex> Transaction.module_exists("ups")
+      true
+  """
+  def module_exists(atom, module_list \\ []) when is_atom(atom) do
+    default_modules = ExCheckout.get_carrier_modules()
+
+    carriers =
+      Application.get_env(:ex_checkout, :carriers, module_list)
+      |> Enum.map(fn {k, c} ->
+        module = Keyword.get(c, :module)
+
+        case module do
+          nil ->
+            Enum.filter(default_modules, fn {_module, module_carrier} ->
+              module_carrier == k
+            end)
+
+          module ->
+            {k, module}
+        end
+      end)
+      |> IO.inspect()
+      |> Enum.reject(fn x -> x == nil end)
+
+    module =
+      case Enum.filter(carriers, fn {k, _} -> k == atom end) do
+        [{_, carrier_module}] -> carrier_module
+        {_, carrier_module} -> carrier_module
+        _ -> %{}
+      end
+
+    available_providers = ExCheckout.available_carriers()
+
+    if module in available_providers do
+      true
+    else
+      false
+    end
   end
 end

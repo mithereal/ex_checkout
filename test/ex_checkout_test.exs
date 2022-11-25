@@ -4,10 +4,6 @@ defmodule ExCheckoutTest do
   alias ExCheckout.Server, as: Checkout
   alias ExCheckout.Transaction
 
-  test "init" do
-    assert ExCheckout.init() == :ok
-  end
-
   test "checkout process" do
     customer = %{
       first_name: "mithereal",

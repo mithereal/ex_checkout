@@ -35,12 +35,14 @@ defmodule ExCheckout.Transaction do
       iex> Transaction.module("ups")
       Transaction.UPS
   """
-  @spec module(atom | String.t()) :: module()
-  def module(transaction) when is_atom(transaction) do
+  @spec module(atom | String.t(), List.t()) :: module()
+  def module(transaction, module_list \\ [])
+
+  def module(transaction, module_list) when is_atom(transaction) do
     default_modules = ExCheckout.get_transaction_modules()
 
     transactions =
-      Application.get_env(:ex_checkout, :payment_providers, [])
+      Application.get_env(:ex_checkout, :payment_providers, module_list)
       |> Enum.map(fn {k, c} ->
         module = Keyword.get(c, :module)
 
@@ -74,7 +76,7 @@ defmodule ExCheckout.Transaction do
     end
   end
 
-  def module(string) when is_binary(string) do
+  def module(string, _module_list) when is_binary(string) do
     string
     |> String.downcase()
     |> String.to_atom()
@@ -91,11 +93,11 @@ defmodule ExCheckout.Transaction do
       iex> Transaction.module_exists("ups")
       true
   """
-  def module_exists(atom) when is_atom(atom) do
+  def module_exists(atom, module_list \\ []) when is_atom(atom) do
     default_modules = ExCheckout.get_transaction_modules()
 
     transactions =
-      Application.get_env(:ex_checkout, :payment_providers, [])
+      Application.get_env(:ex_checkout, :payment_providers, module_list)
       |> Enum.map(fn {k, c} ->
         module = Keyword.get(c, :module)
 
@@ -119,7 +121,7 @@ defmodule ExCheckout.Transaction do
         _ -> %Transaction{}
       end
 
-    available_providers = ExCheckout.payment_providers()
+    available_providers = ExCheckout.available_payment_processors()
 
     if module in available_providers do
       true
