@@ -21,7 +21,7 @@ end
 defp function do
   alias ExCheckout.Server, as: Checkout
   alias ExCheckout.Transaction
-  alias ExCheckout.Ipn.Paypal.Transaction, as: Paypal
+  alias ExCheckout.Transaction.Paypal, as: Paypal
 
     customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]

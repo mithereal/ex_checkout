@@ -37,6 +37,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/nanoid" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/iso" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/jason" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/iso" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/jason" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

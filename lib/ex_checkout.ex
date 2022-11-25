@@ -3,6 +3,8 @@ defmodule ExCheckout do
   Documentation for `ExCheckout`.
   """
 
+  alias ExCheckout.Config
+
   @doc """
   init.
 
@@ -32,10 +34,10 @@ defmodule ExCheckout do
   @doc """
   Returns the name and module tuple.
 
-      iex> ExCheckout.get_modules()
+      iex> ExCheckout.get_transaction_modules()
       []
   """
-  def get_modules() do
+  def get_transaction_modules() do
     {:ok, modules} = :application.get_key(:ex_checkout, :modules)
 
     modules
@@ -53,4 +55,47 @@ defmodule ExCheckout do
       output
     end)
   end
+
+  @doc """
+  Returns the name and module tuple.
+
+      iex> ExCheckout.get_modules()
+      []
+  """
+  def get_shipping_modules() do
+    {:ok, modules} = :application.get_key(:ex_checkout, :modules)
+
+    modules
+    |> Stream.map(&Module.split/1)
+    |> Stream.filter(fn module ->
+      case module do
+        ["Shippex", "Carrier", "_", "Client"] -> false
+        ["ExCheckout", "Carrier", "_", "Client"] -> false
+        [_, "Shippex", "Carrier", "Client"] -> false
+        [_, "ExCheckout", "Carrier", "Client"] -> false
+        ["Shippex", "Carrier", _] -> true
+        [_, "Shippex", "Carrier", _] -> true
+        ["ExCheckout", "Carrier", _] -> true
+        [_, "ExCheckout", "Carrier", _] -> true
+        _ -> false
+      end
+    end)
+    |> Stream.map(&Module.concat/1)
+    |> Stream.map(&{&1, apply(&1, :carrier, [])})
+    |> Enum.map(fn output ->
+      output
+    end)
+  end
+
+  @doc false
+  defdelegate carriers(), to: Config
+
+  @doc false
+  defdelegate carriers(list), to: Config
+
+  @doc false
+  defdelegate payment_providers(), to: Config
+
+  @doc false
+  defdelegate payment_providers(list), to: Config
 end
