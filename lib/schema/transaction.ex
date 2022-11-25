@@ -116,12 +116,12 @@ defmodule ExCheckout.Transaction do
       case Enum.filter(transactions, fn {k, _} -> k == atom end) do
         [{_, transaction_module}] -> transaction_module
         {_, transaction_module} -> transaction_module
-        c -> %Transaction{}
+        _ -> %Transaction{}
       end
 
     available_providers = ExCheckout.payment_providers()
 
-    if atom in available_providers do
+    if module in available_providers do
       true
     else
       false

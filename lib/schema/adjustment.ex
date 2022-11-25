@@ -19,8 +19,8 @@ defmodule ExCheckout.Adjustment do
 
   """
   def new(name, description, function, type \\ nil, id \\ nil) do
-    if(is_nil(id)) do
-      id = Nanoid.generate()
+    id = if(is_nil(id)) do
+       Nanoid.generate()
     end
 
     %ExCheckout.Adjustment{
@@ -36,7 +36,7 @@ defmodule ExCheckout.Adjustment do
     Get the Adjustment Result.
   """
   def result(
-        %{items: items, adjustments: adjustments} = struct,
+        %{items: _items, adjustments: adjustments} = struct,
         name
       ) do
     adjustment = Enum.reject(adjustments, &(&1.name == name))
@@ -60,7 +60,7 @@ defmodule ExCheckout.Adjustment do
     Enum.reduce(items, 0, fn x, acc -> x.qty * x.price + acc end)
   end
 
-  defp adjustment_result(%{items: items, adjustments: adjustments} = struct, adjustment) do
+  defp adjustment_result(%{items: _items, adjustments: _adjustments} = struct, adjustment) do
     subtotal = subtotal(struct)
 
     adjustment_value = value(struct, adjustment)

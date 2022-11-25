@@ -2,7 +2,6 @@ defmodule ExCheckout.Server do
   use GenServer
 
   alias ExCheckout.Product
-  alias ExCheckout.Config
   alias ExCheckout.Customer
   alias ExCheckout.Address
   alias ExCheckout.Adjustment
