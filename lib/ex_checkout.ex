@@ -98,4 +98,7 @@ defmodule ExCheckout do
 
   @doc false
   defdelegate payment_providers(list), to: Config
+
+  @version Mix.Project.config()[:version]
+  def version, do: @version
 end

@@ -376,4 +376,5 @@ defmodule ExCheckout.Server do
   def isn_message(pid, message) do
     GenServer.call(pid, {:incoming_message, message})
   end
+
 end

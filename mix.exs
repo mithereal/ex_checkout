@@ -12,7 +12,8 @@ defmodule ExCheckout.MixProject do
       start_permanent: Mix.env() == :prod,
       package: package(),
       description: description(),
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -48,6 +49,15 @@ defmodule ExCheckout.MixProject do
       maintainers: ["Jason Clark"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => "https://github.com/mithereal/ex_checkout"}
+    ]
+  end
+
+
+  defp docs do
+    [
+      main: "ExCheckout",
+      source_url: @source_url,
+      extras: ["README.md"]
     ]
   end
 end
