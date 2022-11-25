@@ -53,7 +53,13 @@ end
 
 ## Custom Shipping Modules
 there are 2 ways of setting up your own shipping module either specifying it in the config if its in its own namespace or
-creating a module in your project with following module naming conventions defmodule applicationname.ExCheckout.Carrier.Modulename, and setting up the config carriers key to match the modules config() return. see the carrier/null(shipping) or transaction(payment) module for syntax examples, 
+creating a module in your project with following module naming conventions 
+```elixir
+defmodule applicationname.ExCheckout.Carrier.Modulename do
+end
+```
+and setting up the config carriers key to match the modules config() return. 
+see the config, carrier/null(shipping) or transaction(payment) module for syntax examples, 
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
