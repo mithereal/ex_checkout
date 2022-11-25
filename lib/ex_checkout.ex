@@ -43,6 +43,7 @@ defmodule ExCheckout do
     |> Stream.filter(fn module ->
       case module do
         [_, "ExCheckout", "Ipn", _] -> true
+        ["ExCheckout", "Ipn", _] -> true
         _ -> false
       end
     end)
