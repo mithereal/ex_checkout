@@ -21,37 +21,46 @@ defmodule ExCheckout.Config do
 
   @spec carriers() :: [Carrier.t()]
   def carriers() do  ## goes in the isn fun
-    config()
+    {data, _} = config()
+
+    data
     |> Enum.map(fn {x, _} -> x end)
   end
 
-  @spec carriers(nil) :: [Carrier.t()]
+  @spec carriers() :: [Carrier.t()]
   def carriers(nil) do
-    config()
+    {data, _} = config()
+
+    data
     |> Enum.map(fn {x, _} -> x end)
   end
 
-  @spec carriers(List.t()) :: [Carrier.t()]
-  def carriers(config) do
+  @spec carriers(Tuple.t()) :: [Carrier.t()]
+  def carriers({config, _}) do
+
     config
     |> Enum.map(fn {x, _} -> x end)
   end
 
   @spec payment_providers() :: [Map.t()]
   def payment_providers() do
-    config()
+    {_,data} = config()
+
+    data
     |> Enum.map(fn {_, x} -> x end)
   end
 
   ## goes in the ipn fun
   @spec payment_providers() :: [Map.t()]
   def payment_providers(nil) do
-    config()
+    {_,data} = config()
+
+    data
     |> Enum.map(fn {x, _} -> x end)
   end
 
   @spec payment_providers(List.t()) :: [Map.t()]
-  def payment_providers(config) do
+  def payment_providers({_, config}) do
     config
     |> Enum.map(fn {x, _} -> x end)
   end
