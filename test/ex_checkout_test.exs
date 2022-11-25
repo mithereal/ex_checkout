@@ -27,8 +27,8 @@ defmodule ExCheckoutTest do
 
     _invoice = Checkout.invoice(pid)
 
-    _state = Checkout.transaction(pid, transaction)
-    _receipt = Checkout.receipt(pid)
+    _state = Checkout.payment_transaction(pid, transaction)
+   _receipt = Checkout.receipt(pid)
 
     assert total == 0
   end
