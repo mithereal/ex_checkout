@@ -253,17 +253,17 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
-  def handle_call({:ipn_module, ipn_module}, _, state) do
-    state = %{state | ipn_module: ipn_module}
+  def handle_call({:transaction_module, transaction_module}, _, state) do
+    state = %{state | transaction_module: transaction_module}
     {:reply, state, state}
   end
 
   @impl true
-  def handle_call({:ipn_message, ipn_message}, _, state) do
-    handler = state.ipn_module
-    data = handler.process(ipn_message)
+  def handle_call({:incoming_message, incoming_message}, _, state) do
+    handler = state.transaction_module
+    data = handler.process(incoming_message)
     payment_transaction(self(), data)
-    {:reply, ipn_message, state}
+    {:reply, incoming_message, state}
   end
 
   @impl true
@@ -361,11 +361,19 @@ defmodule ExCheckout.Server do
     GenServer.call(pid, {:apply_adjustments})
   end
 
+  def isn(pid, type) do
+    GenServer.call(pid, {:isn_module, type})
+  end
+
   def ipn(pid, type) do
-    GenServer.call(pid, {:ipn_module, type})
+    GenServer.call(pid, {:transaction_module, type})
   end
 
   def ipn_message(pid, message) do
-    GenServer.call(pid, {:ipn_message, message})
+    GenServer.call(pid, {:incoming_message, message})
+  end
+
+  def isn_message(pid, message) do
+    GenServer.call(pid, {:incoming_message, message})
   end
 end
