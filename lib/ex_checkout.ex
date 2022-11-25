@@ -3,6 +3,7 @@ defmodule ExCheckout do
   Documentation for `ExCheckout`.
   """
 
+  alias ExCheckout.Cache
   alias ExCheckout.Config
 
   @doc """
@@ -17,6 +18,11 @@ defmodule ExCheckout do
 
   """
   def new, do: ExCheckout.Checkout.Supervisor.start_child()
+
+  def new(name) do
+    {:ok, pid} = ExCheckout.Checkout.Supervisor.start_child()
+    Cache.register(name, pid)
+    end
 
   @doc """
   Returns the name and module tuple.

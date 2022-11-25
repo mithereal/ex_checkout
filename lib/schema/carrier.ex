@@ -67,7 +67,7 @@ defmodule ExCheckout.Carrier do
       true
   """
   def module_exists(atom, module_list \\ []) when is_atom(atom) do
-    default_modules = ExCheckout.get_carrier_modules()
+    default_modules = ExCheckout.carriers()
 
     carriers =
       Application.get_env(:ex_checkout, :carriers, module_list)

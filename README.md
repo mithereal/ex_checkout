@@ -29,6 +29,8 @@ defp function do
     transaction_data = %{data: %{id: 12345, response: "JSON"}}
 
     {:ok, pid} = ExCheckout.new()
+   ## {:ok, pid} = ExCheckout.Cache.new("my_checkout")
+   ## {pid, value} = ExCheckout.Cache.lookup("my_checkout")
 
     Checkout.customer(pid, customer)
     Checkout.items(pid, items)
@@ -45,6 +47,7 @@ defp function do
     Checkout.ipn(pid, Paypal)
   #incoming data from payment provider
     _state = Checkout.payment_transaction(pid, transaction_data)
+#    _state = Checkout.payment_transaction("my_checkout", transaction_data)
    receipt = Checkout.receipt(pid)
    
   {:ok, receipt}

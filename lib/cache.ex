@@ -3,15 +3,19 @@ defmodule ExCheckout.Cache do
 
   alias ExCheckout.Registry, as: REGISTRY
 
-  def register(name) do
-    REGISTRY.register(name)
+  def register(name, pid) do
+    REGISTRY.register(pid, name)
   end
 
-  def checkout(name) do
+  def lookup(name) do
+    REGISTRY.lookup(name)
+  end
+
+  def new(name) do
     via_tuple(name)
   end
 
-  def remove_checkout(name) do
+  def stop(name) do
     REGISTRY.unregister(name)
   end
 
