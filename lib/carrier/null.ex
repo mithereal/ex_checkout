@@ -1,5 +1,8 @@
 defmodule ExCheckout.Carrier.Null do
-  @moduledoc false
+  @moduledoc """
+  Example Shipping module
+  """
+  @behaviour ExCheckout.Behaviours.Carrier
 
   @impl true
   def carrier() do

@@ -58,8 +58,8 @@ creating a module in your project with following module naming conventions
 defmodule applicationname.ExCheckout.Carrier.Modulename do
 end
 ```
-and setting up the config carriers key to match the modules config() return. 
-see the config, carrier/null(shipping) or transaction(payment) module for syntax examples, 
+then set up the config carriers key to match the modules config() return. 
+see the config, carrier/null or payment/null module for syntax examples, 
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
