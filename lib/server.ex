@@ -19,7 +19,7 @@ defmodule ExCheckout.Server do
             customer: %Customer{},
             addresses: [],
             transaction: %Transaction{},
-            ipn_module: %Transaction{},
+            transaction_module: %Transaction{},
             invoice: %Invoice{},
             receipt: %Receipt{}
 
