@@ -101,4 +101,12 @@ defmodule ExCheckout do
 
   @version Mix.Project.config()[:version]
   def version, do: @version
+
+  def available_carriers() do
+    []
+  end
+
+  def available_payment_processors() do
+    []
+  end
 end

@@ -20,7 +20,7 @@ defmodule ExCheckout.Config do
   end
 
   @spec carriers() :: [Carrier.t()]
-  def carriers() do
+  def carriers() do  ## goes in the isn fun
     config()
     |> Enum.map(fn {x, _} -> x end)
   end
@@ -43,6 +43,7 @@ defmodule ExCheckout.Config do
     |> Enum.map(fn {_, x} -> x end)
   end
 
+  ## goes in the ipn fun
   @spec payment_providers() :: [Map.t()]
   def payment_providers(nil) do
     config()
