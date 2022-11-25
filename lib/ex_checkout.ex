@@ -59,7 +59,7 @@ defmodule ExCheckout do
   @doc """
   Returns the name and module tuple.
 
-      iex> ExCheckout.get_modules()
+      iex> ExCheckout.get_shipping_modules()
       []
   """
   def get_shipping_modules() do
@@ -102,11 +102,29 @@ defmodule ExCheckout do
   @version Mix.Project.config()[:version]
   def version, do: @version
 
+  @doc """
+  Returns the available shipping carriers.
+
+      iex> ExCheckout.available_carriers()
+      []
+  """
   def available_carriers() do
-    []
+    Config.carriers()
+    |> Enum.filter(fn x ->
+      ExCheckout.Transaction.module_exists(x)
+    end)
   end
 
+  @doc """
+  Returns the the available payment processors.
+
+      iex> ExCheckout.available_payment_processors()
+      []
+  """
   def available_payment_processors() do
-    []
+    Config.payment_providers()
+    |> Enum.filter(fn x ->
+      ExCheckout.Transaction.module_exists(x)
+    end)
   end
 end

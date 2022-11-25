@@ -2,6 +2,7 @@ defmodule ExCheckout.MixProject do
   use Mix.Project
 
   @version "1.0.0"
+  @source_url "https://github.com/mithereal/ExCheckout"
 
   def project do
     [
@@ -51,7 +52,6 @@ defmodule ExCheckout.MixProject do
       links: %{"GitHub" => "https://github.com/mithereal/ex_checkout"}
     ]
   end
-
 
   defp docs do
     [

@@ -36,7 +36,7 @@ defmodule ExCheckout.Adjustment do
     Get the Adjustment Result.
   """
   def result(
-  %{items: items, adjustments: adjustments} = struct,
+        %{items: items, adjustments: adjustments} = struct,
         name
       ) do
     adjustment = Enum.reject(adjustments, &(&1.name == name))
@@ -69,5 +69,4 @@ defmodule ExCheckout.Adjustment do
 
     {:ok, %{subtotal: subtotal, adjustment: adjustment}}
   end
-
 end

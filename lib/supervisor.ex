@@ -17,6 +17,7 @@ defmodule ExCheckout.Checkout.Supervisor do
       start: {ExCheckout.Server, :start_link, args},
       restart: :transient
     }
+
     DynamicSupervisor.start_child(__MODULE__, child_spec)
   end
 

@@ -4,7 +4,7 @@ config :logger, :console, format: "[$level] $message\n"
 
 config :ex_checkout, :ecto_repos, [ExCheckout.Repo.Null]
 
-#config :ex_checkout, ExCheckout.Repo,
+# config :ex_checkout, ExCheckout.Repo,
 #  adapter: Ecto.Adapters.Postgres,
 #  username: "postgres",
 #  password: "postgres",

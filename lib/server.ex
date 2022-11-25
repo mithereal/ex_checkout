@@ -2,6 +2,7 @@ defmodule ExCheckout.Server do
   use GenServer
 
   alias ExCheckout.Product
+  alias ExCheckout.Config
   alias ExCheckout.Customer
   alias ExCheckout.Address
   alias ExCheckout.Adjustment
@@ -148,11 +149,12 @@ defmodule ExCheckout.Server do
   end
 
   @impl true
+  # we prolly can add config here
   def handle_call({:shipping_quote, {carriers, package}}, _, state) do
     [shipping_module] = Application.get_env(:ex_checkout, :shipping_module, :not_found)
 
-    [origin_address] = Enum.filter(state.address, fn(x) -> x.type == :origin end)
-    [destination_address] = Enum.filter(state.address, fn(x) -> x.type == :destination end)
+    [origin_address] = Enum.filter(state.address, fn x -> x.type == :origin end)
+    [destination_address] = Enum.filter(state.address, fn x -> x.type == :destination end)
 
     rates =
       case shipping_module do
@@ -254,7 +256,12 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:transaction_module, transaction_module}, _, state) do
-    state = %{state | transaction_module: transaction_module}
+    state =
+      case ExCheckout.Transaction.module_exists(transaction_module) do
+        true -> %{state | transaction_module: transaction_module}
+        false -> state
+      end
+
     {:reply, state, state}
   end
 
@@ -376,5 +383,4 @@ defmodule ExCheckout.Server do
   def isn_message(pid, message) do
     GenServer.call(pid, {:incoming_message, message})
   end
-
 end

@@ -5,7 +5,6 @@ defmodule ExCheckout.Application do
 
   @name __MODULE__
 
-
   def start(_, args) do
     [repo] = Application.get_env(:ex_checkout, :ecto_repos)
 

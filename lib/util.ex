@@ -180,5 +180,4 @@ defmodule ExCheckout.Util do
       {key, val}
     end
   end
-
 end
