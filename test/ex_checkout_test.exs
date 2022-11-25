@@ -12,7 +12,7 @@ defmodule ExCheckoutTest do
     customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
     adjustments = []
-    transaction = %Transaction{data: %{id: 12345, response: "JSON"}}
+    transaction_data = %Transaction{data: %{id: 12345, response: "JSON"}}
 
     {:ok, pid} = ExCheckout.new()
 
@@ -27,7 +27,7 @@ defmodule ExCheckoutTest do
 
     _invoice = Checkout.invoice(pid)
 
-    _state = Checkout.payment_transaction(pid, transaction)
+    _state = Checkout.payment_transaction(pid, transaction_data)
    _receipt = Checkout.receipt(pid)
 
     assert total == 0

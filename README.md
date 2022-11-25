@@ -21,11 +21,12 @@ end
 defp function do
   alias ExCheckout.Server, as: Checkout
   alias ExCheckout.Transaction
+  alias ExCheckout.Ipn.Paypal.Transaction, as: Paypal
 
     customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
     adjustments = []
-    transaction = %Transaction{data: %{id: 12345, response: "JSON"}}
+    transaction_data = %{data: %{id: 12345, response: "JSON"}}
 
     {:ok, pid} = ExCheckout.new()
 
@@ -40,8 +41,10 @@ defp function do
 
     _invoice = Checkout.invoice(pid)
 
-    #incoming data from payment provider
-    _state = Checkout.payment_transaction(pid, transaction)
+  #select payment provider to await on the ipn data 
+    Checkout.ipn(pid, Paypal)
+  #incoming data from payment provider
+    _state = Checkout.payment_transaction(pid, transaction_data)
    receipt = Checkout.receipt(pid)
    
   {:ok, receipt}
