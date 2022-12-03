@@ -10,6 +10,7 @@ defmodule ExCheckout.Config do
   end
 
   def repo, do: List.first(Application.fetch_env!(:ex_checkout, :ecto_repos))
+  def repos, do: Application.fetch_env!(:ex_checkout, :ecto_repos)
 
   @spec config() :: Keyword.t() | none()
   def config() do
