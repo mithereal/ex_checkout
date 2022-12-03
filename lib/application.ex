@@ -3,10 +3,12 @@ defmodule ExCheckout.Application do
 
   use Application
 
+  alias ExCheckout.Config
+
   @name __MODULE__
 
   def start(_, args) do
-    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
+    repo = Config.repo()
 
     children = [
       ExCheckout.Registry,
