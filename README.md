@@ -18,15 +18,17 @@ end
 ## Example implementation
 
 ```elixir
-defp function do
+defmodule Web.Checkout.Controller do
+
+defp checkout(conn, {customer, items}) do
   alias ExCheckout.Server, as: Checkout
   alias ExCheckout.Transaction
-  alias ExCheckout.Transaction.Paypal, as: Paypal
-
+  alias ExCheckout.Transaction.MyPaymentProvider, as: MyPaymentProvider
+  
     customer = %{first_name: "mithereal", last_name: "nil", email: "mithereal@gmail.com", phone: "1234567"}
     items = [{"sku-123", 11.00}, {"sku-123-456", 15.00}]
+
     adjustments = []
-    transaction_data = %{data: %{id: 12345, response: "JSON"}}
 
     {:ok, pid} = ExCheckout.new()
    ## {:ok, pid} = ExCheckout.Cache.new("my_checkout")
@@ -44,14 +46,31 @@ defp function do
     _invoice = Checkout.invoice(pid)
 
   #select payment provider to await on the ipn data 
-    Checkout.ipn(pid, Paypal)
-  #incoming data from payment provider
+    Checkout.ipn(pid, MyPaymentProvider)
+   
+  {:ok, pid}
+end
+end
+
+defmodule Web.ExCheckout.Transaction.MyPaymentProvider do
+ @behaviour ExCheckout.Behaviours.Transaction
+ 
+ @impl true
+def module_id() do
+  :my_payment_provider
+end
+
+def process(transaction_data) do
+  transaction_data = %{data: %{id: 12345, response: "JSON"}}
     _state = Checkout.payment_transaction(pid, transaction_data)
 #    _state = Checkout.payment_transaction("my_checkout", transaction_data)
    receipt = Checkout.receipt(pid)
-   
-  {:ok, receipt}
+   ## maybe write to db or socket
+    {:ok, receipt}
 end
+
+end
+
    ```
 
 ## Custom Shipping Modules
