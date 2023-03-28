@@ -60,7 +60,7 @@ def module_id() do
   :my_payment_provider
 end
 
-def process(transaction_data) do
+def process(pid, transaction_data) do
   transaction_data = %{data: %{id: 12345, response: "JSON"}}
     _state = Checkout.payment_transaction(pid, transaction_data)
 #    _state = Checkout.payment_transaction("my_checkout", transaction_data)
