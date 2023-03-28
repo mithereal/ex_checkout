@@ -4,7 +4,7 @@ defmodule ExCheckoutTest do
   alias ExCheckout.Server, as: Checkout
   alias ExCheckout.Transaction
 
-  test "checkout process" do
+  test "checkout process using invalid data passed to the items array (each product price is really 100" do
     customer = %{
       first_name: "mithereal",
       last_name: "nil",
@@ -32,6 +32,6 @@ defmodule ExCheckoutTest do
     _state = Checkout.payment_transaction(pid, transaction_data)
     _receipt = Checkout.receipt(pid)
 
-    assert total == 0
+    assert total == 200
   end
 end

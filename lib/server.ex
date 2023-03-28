@@ -195,7 +195,9 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:subtotal}, _, state) do
-    {:reply, state.sub_total, state}
+    sub_total = Enum.map(state.products, fn x -> x.price end) |> Enum.sum()
+    updated = %{state | sub_total: sub_total}
+    {:reply, sub_total, updated}
   end
 
   @impl true
