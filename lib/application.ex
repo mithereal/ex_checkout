@@ -11,8 +11,8 @@ defmodule ExCheckout.Application do
     repo = Config.repo()
 
     children = [
-      ExCheckout.Registry,
       {repo, args},
+      ExCheckout.Registry,
       {DynamicSupervisor, strategy: :one_for_one, name: ExCheckout.Checkout.Supervisor}
     ]
 
