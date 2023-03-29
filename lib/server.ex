@@ -51,12 +51,7 @@ defmodule ExCheckout.Server do
 
   @impl true
   def init(cart) do
-    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
-
-    products =
-      Enum.map(cart.items, fn {x, _} ->
-        repo.get_by(Product, x, :sku)
-      end)
+    products = ExCheckout.Cart.products(cart)
 
     adjustments =
       Enum.filter(cart.adjustments, fn x ->
@@ -125,12 +120,8 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:scan_items}, _, state) do
-    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
 
-    products =
-      Enum.map(state.items, fn {x, _} ->
-        repo.get_by(Product, x, :sku)
-      end)
+    products = ExCheckout.Products.products(state)
 
     state = %{state | products: products}
 
@@ -298,12 +289,7 @@ defmodule ExCheckout.Server do
   end
 
   def cart(pid, data) do
-    [repo] = Application.get_env(:ex_checkout, :ecto_repos)
-
-    products =
-      Enum.map(data.items, fn x ->
-        repo.get_by(Product, x.sku, :sku)
-      end)
+    products = ExCheckout.Cart.products(data)
 
     adjustments =
       Enum.filter(data.adjustments, fn x ->
