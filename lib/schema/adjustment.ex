@@ -19,11 +19,12 @@ defmodule ExCheckout.Adjustment do
 
   """
   def new(name, description, function, type \\ nil, id \\ nil) do
-    id = if(is_nil(id)) do
-       Nanoid.generate()
-    end
+    id =
+      if(is_nil(id)) do
+        Nanoid.generate()
+      end
 
-    %ExCheckout.Adjustment{
+    %__MODULE__{
       id: id,
       name: name,
       description: description,

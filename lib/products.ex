@@ -1,13 +1,10 @@
-defmodule ExCheckout.Products  do
+defmodule ExCheckout.Products do
   @moduledoc false
-  
   alias ExCheckout.Product
 
-def products(state) do
-  [repo] = Application.get_env(:ex_checkout, :ecto_repos)
-
+  def fetch(state) do
     Enum.map(state.items, fn {x, _} ->
-      repo.get_by(Product, x, :sku)
+      %Product{sku: x}
     end)
-end
+  end
 end

@@ -22,7 +22,7 @@ defmodule ExCheckout do
   def new(name) do
     {:ok, pid} = ExCheckout.Checkout.Supervisor.start_child()
     Cache.register(name, pid)
-    end
+  end
 
   @doc """
   Returns the name and module tuple.

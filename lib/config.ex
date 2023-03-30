@@ -9,9 +9,6 @@ defmodule ExCheckout.Config do
     Application.get_env(:ex_checkout, name, default)
   end
 
-  def repo, do: List.first(Application.fetch_env!(:ex_checkout, :ecto_repos))
-  def repos, do: Application.fetch_env!(:ex_checkout, :ecto_repos)
-
   @spec config() :: Keyword.t() | none()
   def config() do
     carriers = Application.get_env(:ex_checkout, :carriers, [])
@@ -63,19 +60,5 @@ defmodule ExCheckout.Config do
   def payment_providers({_, config}) do
     config
     |> Enum.map(fn {x, _} -> x end)
-  end
-
-  def key_type() do
-    case Application.get_env(:ex_checkout, repo())[:primary_key_type] do
-      nil -> :integer
-      _ -> :binary_id
-    end
-  end
-
-  def key_type(:migration) do
-    case Application.get_env(:ex_checkout, repo())[:primary_key_type] do
-      nil -> :integer
-      _ -> :uuid
-    end
   end
 end

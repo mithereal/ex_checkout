@@ -2,7 +2,7 @@ defmodule ExCheckout.Transaction do
   defstruct id: nil,
             data: []
 
-  alias ExCheckout.Transaction
+  alias ExCheckout.Transaction, as: Transaction
 
   @doc """
   Return the module id

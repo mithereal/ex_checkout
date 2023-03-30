@@ -1,7 +1,7 @@
 defmodule ExCheckout.Transaction.Null do
   @moduledoc """
-Example Payment module
-"""
+  Example Payment module
+  """
   @behaviour ExCheckout.Behaviours.Transaction
 
   @impl true

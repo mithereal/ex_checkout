@@ -10,7 +10,6 @@ defmodule ExCheckout.Carrier do
       Carrier.UPS
   """
 
-
   @spec module(atom | String.t()) :: module()
   def module(carrier) when is_atom(carrier) do
     default_modules = ExCheckout.get_shipping_modules()
@@ -28,7 +27,6 @@ defmodule ExCheckout.Carrier do
             {k, module}
         end
       end)
-      |> IO.inspect()
       |> Enum.reject(fn x -> x == nil end)
 
     module =
@@ -54,7 +52,6 @@ defmodule ExCheckout.Carrier do
     |> String.to_atom()
     |> module
   end
-
 
   @doc """
   Checks if Module Exists.

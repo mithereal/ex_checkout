@@ -3,15 +3,10 @@ defmodule ExCheckout.Application do
 
   use Application
 
-  alias ExCheckout.Config
-
   @name __MODULE__
 
-  def start(_, args) do
-    repo = Config.repo()
-
+  def start(_, _args) do
     children = [
-      {repo, args},
       ExCheckout.Registry,
       {DynamicSupervisor, strategy: :one_for_one, name: ExCheckout.Checkout.Supervisor}
     ]

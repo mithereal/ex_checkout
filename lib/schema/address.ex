@@ -1,46 +1,23 @@
 defmodule ExCheckout.Address do
-  use ExCheckout.Schema
-  import Ecto.Changeset
-
-  schema "checkout_address" do
-    field(:address, :string)
-    field(:type, :string)
-  end
-
-  @doc false
-  def changeset(schema, attrs) do
-    schema
-    |> cast(attrs, [:address, :type])
-    |> validate_required([:address, :type])
-  end
+  defstruct address: nil,
+            # [:origin, :destination]
+            type: :origin
 
   def new() do
-    {:ok, %ExCheckout.Address{}}
+    {:ok, %__MODULE__{}}
   end
 
   def new(data) do
-    {:ok, changeset(ExCheckout.Address, data)}
+    {:ok, struct(__MODULE__, data)}
   end
 end
 
 defmodule ExCheckout.Shipping.Address do
-use ExCheckout.Schema
-  import Ecto.Changeset
+  @enforce_keys ~w(first_name last_name name phone address address_line_2 city
+                   state postal_code country)a
 
-  schema "checkout_address" do
-    field(:name, :string)
-    field(:company_name, :string)
-    field(:first_name, :string)
-    field(:last_name, :string)
-    field(:phone, :string)
-    field(:address, :string)
-    field(:address_line_2, :string)
-    field(:city, :string)
-    field(:state, :string)
-    field(:postal_code, :string)
-    field(:country, :string)
-  end
-
+  defstruct ~w(first_name last_name name company_name phone address
+               address_line_2 city state postal_code country)a
 
   @type t() :: %__MODULE__{
           first_name: nil | String.t(),
@@ -61,6 +38,6 @@ use ExCheckout.Schema
   end
 
   def new(data) do
-    {:ok, %{}}
+    {:ok, struct(__MODULE__, data)}
   end
 end

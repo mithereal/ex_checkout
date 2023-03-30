@@ -6,6 +6,6 @@ defmodule ExCheckout.Carrier.Null do
 
   @impl true
   def carrier() do
-    :nil
+    nil
   end
 end

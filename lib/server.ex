@@ -50,8 +50,6 @@ defmodule ExCheckout.Server do
 
   @impl true
   def init(cart) do
-    products = ExCheckout.Cart.products(cart)
-
     adjustments =
       Enum.filter(cart.adjustments, fn x ->
         adjustment_valid(x)
@@ -68,7 +66,7 @@ defmodule ExCheckout.Server do
 
     initial_state = %__MODULE__{
       items: cart.items,
-      products: products,
+      products: [],
       adjustments: adjustments
     }
 
@@ -78,7 +76,7 @@ defmodule ExCheckout.Server do
   @impl true
   def handle_call({:items, data}, _, state) do
     state = %{state | items: data}
-    {:reply, state, state}
+    {:reply, state.items, state}
   end
 
   @impl true
@@ -119,8 +117,7 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:scan_items}, _, state) do
-
-    products = ExCheckout.Products.products(state)
+    products = ExCheckout.Products.fetch(state)
 
     state = %{state | products: products}
 

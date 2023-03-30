@@ -14,7 +14,7 @@ defmodule ExCheckout.Package do
   `:description` can optionally be passed in. Otherwise, it will be generated
   by joining the descriptions of each of the items.
 
-      ExCheckout.Package.package(%{length: 8
+      ExCheckout.Package.package(%{length: 8,
                                 width: 8,
                                 height: 8,
                                 items: [
@@ -25,7 +25,7 @@ defmodule ExCheckout.Package do
       # => %Package{weight: 3, monetary_value: 300, description: "A, B", ...}
   """
 
-  alias ExCheckout.Item
+  alias ExCheckout.Item, as: Item
 
   @enforce_keys [:length, :width, :height, :weight, :items, :monetary_value, :description]
   @fields ~w(length width height weight girth container insurance monetary_value description items)a

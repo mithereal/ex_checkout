@@ -31,7 +31,7 @@ import Config
 
 config :ex_checkout, :ecto_repos, [ExCheckout.Repo]
 
-#config :ex_checkout,
+# config :ex_checkout,
 #       distance_unit: :in, # either :in or :cm
 #       weight_unit: :lbs, # either :lbs or :kg
 #       currency: :usd, # :usd, :can, :mxn, :eur
@@ -47,6 +47,5 @@ config :ex_checkout, :ecto_repos, [ExCheckout.Repo]
 #           module: ExCheckout.Carrier.USPS
 #         ]
 #       ]
-
 
 import_config "#{Mix.env()}.exs"

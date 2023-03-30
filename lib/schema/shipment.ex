@@ -8,7 +8,9 @@ defmodule ExCheckout.Shipment do
   Shipments are created by `shipment/3`.
   """
 
-  alias ExCheckout.{Shipment, Address, Package}
+  alias ExCheckout.Shipment, as: Shipment
+  alias ExCheckout.Address, as: Address
+  alias ExCheckout.Package, as: Package
 
   @enforce_keys [:from, :to, :package, :ship_date]
   defstruct [:id, :from, :to, :package, :ship_date]
