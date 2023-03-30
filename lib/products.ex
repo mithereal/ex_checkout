@@ -6,7 +6,7 @@ defmodule ExCheckout.Products  do
 def products(state) do
   [repo] = Application.get_env(:ex_checkout, :ecto_repos)
 
-    Enum.map(state.products, fn {x, _} ->
+    Enum.map(state.items, fn {x, _} ->
       repo.get_by(Product, x, :sku)
     end)
 end

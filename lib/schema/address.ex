@@ -61,6 +61,6 @@ use ExCheckout.Schema
   end
 
   def new(data) do
-    {:ok, changeset(ExCheckout.Shipping.Address, data)}
+    {:ok, %{}}
   end
 end
