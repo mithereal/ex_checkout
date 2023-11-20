@@ -9,6 +9,7 @@ defmodule ExCheckout.Server do
   alias ExCheckout.Shipment
   alias ExCheckout.Receipt
   alias ExCheckout.Transaction
+  alias ExCart.Cart
 
   defstruct sub_total: 0,
             total: 0,
@@ -285,7 +286,7 @@ defmodule ExCheckout.Server do
   end
 
   def cart(pid, data) do
-    products = ExCheckout.Cart.products(data)
+    products = ExCheckout.Products.fetch(data)
 
     adjustments =
       Enum.filter(data.adjustments, fn x ->

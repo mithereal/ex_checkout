@@ -30,7 +30,8 @@ defmodule ExCheckout.MixProject do
       {:ex_phone_number, "~> 0.3.0"},
       {:nanoid, "~> 2.0"},
       {:decimal, ">= 0.0.0"},
-      {:iso, "~> 1.2"}
+      {:iso, "~> 1.2"},
+      {:telemetry, "~> 1.0"}
     ]
   end
 
