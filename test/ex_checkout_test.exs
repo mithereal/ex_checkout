@@ -32,6 +32,6 @@ defmodule ExCheckoutTest do
     _state = Checkout.payment_transaction(pid, transaction_data)
     _receipt = Checkout.receipt(pid)
 
-    assert total == 200
+    assert total == 26.0
   end
 end

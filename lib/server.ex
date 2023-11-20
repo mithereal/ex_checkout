@@ -9,7 +9,6 @@ defmodule ExCheckout.Server do
   alias ExCheckout.Shipment
   alias ExCheckout.Receipt
   alias ExCheckout.Transaction
-  alias ExCart.Cart
 
   defstruct sub_total: 0,
             total: 0,

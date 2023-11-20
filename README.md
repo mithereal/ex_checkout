@@ -2,6 +2,13 @@
 
 **A general store checkout system**
 
+[![Coverage Status](https://coveralls.io/repos/github/mithereal/ex_checkout/badge.svg?branch=main)](https://coveralls.io/github/mithereal/ex_checkout?branch=main)
+![CircleCI](https://img.shields.io/circleci/build/github/mithereal/ex_checkout)
+[![Version](https://img.shields.io/hexpm/v/ex_checkout.svg?style=flat-square)](https://hex.pm/packages/ex_checkout)
+![GitHub](https://img.shields.io/github/license/mithereal/ex_checkout)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mithereal/ex_checkout/main)
+
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
