@@ -1,7 +1,7 @@
 defmodule ExCheckout.MixProject do
   use Mix.Project
 
-  @version "1.5.2"
+  @version "1.5.3"
   @source_url "https://github.com/mithereal/ExCheckout"
 
   def project do
@@ -14,7 +14,11 @@ defmodule ExCheckout.MixProject do
       package: package(),
       description: description(),
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test
+      ]
     ]
   end
 
@@ -31,7 +35,8 @@ defmodule ExCheckout.MixProject do
       {:nanoid, "~> 2.0"},
       {:decimal, ">= 0.0.0"},
       {:iso, "~> 1.2"},
-      {:telemetry, "~> 1.0"}
+      {:telemetry, "~> 1.0"},
+      {:excoveralls, "~> 0.14", only: [:test, :dev]}
     ]
   end
 

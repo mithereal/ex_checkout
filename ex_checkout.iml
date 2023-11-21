@@ -49,6 +49,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/earmark_parser" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ex_phone_number" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ex_phone_number" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/excoveralls" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/excoveralls" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ex_doc" level="project" />
@@ -97,5 +99,11 @@
     <orderEntry type="library" name="stream_data" level="project" />
     <orderEntry type="library" name="tiny" level="project" />
     <orderEntry type="library" name="ex_cart" level="project" />
+    <orderEntry type="library" name="castore" level="project" />
+    <orderEntry type="library" name="bypass" level="project" />
+    <orderEntry type="library" name="meck" level="project" />
+    <orderEntry type="library" name="mock" level="project" />
+    <orderEntry type="library" name="sax_map" level="project" />
+    <orderEntry type="library" name="saxy" level="project" />
   </component>
 </module>

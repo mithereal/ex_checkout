@@ -13,7 +13,7 @@ jobs:
         environment: # environment variables for database
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: ex_membership
+          POSTGRES_DB: ex_checkout
 
     working_directory: ~/repo
     steps:

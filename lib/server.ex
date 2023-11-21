@@ -285,7 +285,7 @@ defmodule ExCheckout.Server do
   end
 
   def cart(pid, data) do
-    products = ExCheckout.Products.fetch(data)
+    products = ExCheckout.Products.products(data)
 
     adjustments =
       Enum.filter(data.adjustments, fn x ->
