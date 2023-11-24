@@ -15,6 +15,7 @@ defmodule ExCheckout.MixProject do
       description: description(),
       deps: deps(),
       docs: docs(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test
@@ -32,17 +33,30 @@ defmodule ExCheckout.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
       {:ex_phone_number, "~> 0.3.0"},
+      {:ecto, "~> 3.10"},
+      {:ecto_sql, "~> 3.10"},
+      {:postgrex, "~> 0.16"},
       {:nanoid, "~> 2.0"},
       {:decimal, ">= 0.0.0"},
       {:iso, "~> 1.2"},
       {:telemetry, "~> 1.0"},
-      {:excoveralls, "~> 0.14", only: [:test, :dev]}
+      {:excoveralls, "~> 0.14", only: [:test, :dev]},
+      {:ex_machina, "~> 2.2", only: :test},
+      {:faker, "~> 0.16", only: [:test, :dev]},
+      {:mock, "~> 0.3.0", only: :test},
+      {:inch_ex, ">= 0.0.0", only: :docs},
+      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev, :test], runtime: false},
+      {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false}
     ]
   end
 
   defp description do
     "E-commerce Checkout for Elixir."
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     # These are the default files included in the package

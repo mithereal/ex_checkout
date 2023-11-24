@@ -51,6 +51,15 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ex_phone_number" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/excoveralls" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/excoveralls" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/dialyxir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/erlex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ex_machina" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/meck" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mix_audit" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mock" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/yamerl" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/yaml_elixir" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ex_doc" level="project" />
@@ -105,5 +114,13 @@
     <orderEntry type="library" name="mock" level="project" />
     <orderEntry type="library" name="sax_map" level="project" />
     <orderEntry type="library" name="saxy" level="project" />
+    <orderEntry type="library" name="ex_machina" level="project" />
+    <orderEntry type="library" name="faker" level="project" />
+    <orderEntry type="library" name="mix_audit" level="project" />
+    <orderEntry type="library" name="markdown" level="project" />
+    <orderEntry type="library" name="erlex" level="project" />
+    <orderEntry type="library" name="yaml_elixir" level="project" />
+    <orderEntry type="library" name="credo_naming" level="project" />
+    <orderEntry type="library" name="yamerl" level="project" />
   </component>
 </module>

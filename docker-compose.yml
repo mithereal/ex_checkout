@@ -1,0 +1,20 @@
+version: "3"
+services:
+  database:
+    image: postgres:14-alpine
+    container_name: ex_checkout
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ex_checkout
+    networks:
+      - default
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+
+networks:
+  default:
+volumes:
+  data:
