@@ -3,13 +3,13 @@ defmodule ExCheckout.Products do
   alias ExCheckout.Product
   alias ExCheckout.Repo
 
-  def fetch(state) do
+  def map(state) do
     Enum.map(state.items, fn {x, price} ->
       %Product{sku: x, price: price}
     end)
   end
 
-  def products(state) do
+  def fetch(state) do
     Enum.map(state.items, fn {x, _} ->
       Repo.get_by(Product, sku: x.sku)
     end)

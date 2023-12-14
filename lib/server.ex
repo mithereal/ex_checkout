@@ -117,7 +117,7 @@ defmodule ExCheckout.Server do
 
   @impl true
   def handle_call({:scan_items}, _, state) do
-    products = ExCheckout.Products.fetch(state)
+    products = ExCheckout.Products.map(state)
 
     state = %{state | products: products}
 
